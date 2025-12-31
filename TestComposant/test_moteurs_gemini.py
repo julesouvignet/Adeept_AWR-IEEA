@@ -6,10 +6,6 @@ import time
 Motor_A_EN, Motor_A_Pin1, Motor_A_Pin2 = 4, 14, 15
 Motor_B_EN, Motor_B_Pin1, Motor_B_Pin2 = 17, 27, 18
 
-# Moteurs C et D (broches standards Adeept)
-Motor_C_EN, Motor_C_Pin1, Motor_C_Pin2 = 1, 7, 8
-Motor_D_EN, Motor_D_Pin1, Motor_D_Pin2 = 16, 12, 16 # Attention: à vérifier selon ton câblage réel
-
 # Initialisation
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -31,9 +27,7 @@ def action_moteur(en, p1, p2, nom):
 # Configuration de tous les moteurs
 moteurs = [
     (Motor_A_EN, Motor_A_Pin1, Motor_A_Pin2, "Moteur A (Avant Gauche)"),
-    (Motor_B_EN, Motor_B_Pin1, Motor_B_Pin2, "Moteur B (Avant Droit)"),
-    (Motor_C_EN, Motor_C_Pin1, Motor_C_Pin2, "Moteur C (Arrière Gauche)"),
-    (Motor_D_EN, Motor_D_Pin1, Motor_D_Pin2, "Moteur D (Arrière Droit)")
+    (Motor_B_EN, Motor_B_Pin1, Motor_B_Pin2, "Moteur B (Avant Droit)")
 ]
 
 try:
