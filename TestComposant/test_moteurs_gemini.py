@@ -2,7 +2,8 @@ import time
 import Adafruit_PCA9685
 
 # Initialisation du contrôleur PWM (adresse I2C par défaut 0x40)
-pwm = Adafruit_PCA9685.PCA9685()
+#pwm = Adafruit_PCA9685.PCA9685()
+pwm = Adafruit_PCA9685.PCA9685(address=0x40, busnum=1)
 pwm.set_pwm_freq(60)
 
 # Définition des canaux PWM pour les moteurs du robot Adeept AWR
