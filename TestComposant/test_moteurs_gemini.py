@@ -1,33 +1,47 @@
+import RPi.GPIO as GPIO
 import time
-import Adafruit_PCA9685
 
-# Initialisation du contrôleur PWM (adresse I2C par défaut 0x40)
-#pwm = Adafruit_PCA9685.PCA9685()
-pwm = Adafruit_PCA9685.PCA9685(address=0x40, busnum=1)
-pwm.set_pwm_freq(60)
+# Configuration des broches
+# Moteurs A et B (tes réglages)
+Motor_A_EN, Motor_A_Pin1, Motor_A_Pin2 = 4, 14, 15
+Motor_B_EN, Motor_B_Pin1, Motor_B_Pin2 = 17, 27, 18
 
-# Définition des canaux PWM pour les moteurs du robot Adeept AWR
-# Canal 0 & 1 : Moteurs Gauches | Canal 2 & 3 : Moteurs Droits
-MOTORS = {
-    "GAUCHE_AVANT": 0,
-    "GAUCHE_ARRIERE": 1,
-    "DROIT_AVANT": 2,
-    "DROIT_ARRIERE": 3
-}
+# Moteurs C et D (broches standards Adeept)
+Motor_C_EN, Motor_C_Pin1, Motor_C_Pin2 = 1, 7, 8
+Motor_D_EN, Motor_D_Pin1, Motor_D_Pin2 = 16, 12, 16 # Attention: à vérifier selon ton câblage réel
 
-def moteur_on(canal):
-    print(f"Test du canal {canal}...")
-    # 4095 correspond à la vitesse maximale (cycle de service 100%)
-    pwm.set_pwm(canal, 0, 4095)
+# Initialisation
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+
+def config_moteur(en, p1, p2):
+    GPIO.setup(en, GPIO.OUT)
+    GPIO.setup(p1, GPIO.OUT)
+    GPIO.setup(p2, GPIO.OUT)
+
+def action_moteur(en, p1, p2, nom):
+    print(f"Activation : {nom}")
+    GPIO.output(en, GPIO.HIGH)
+    GPIO.output(p1, GPIO.HIGH)
+    GPIO.output(p2, GPIO.LOW)
     time.sleep(2)
-    pwm.set_pwm(canal, 0, 0) # Arrêt
+    GPIO.output(en, GPIO.LOW)
+    print(f"Arrêt : {nom}")
+
+# Configuration de tous les moteurs
+moteurs = [
+    (Motor_A_EN, Motor_A_Pin1, Motor_A_Pin2, "Moteur A (Avant Gauche)"),
+    (Motor_B_EN, Motor_B_Pin1, Motor_B_Pin2, "Moteur B (Avant Droit)"),
+    (Motor_C_EN, Motor_C_Pin1, Motor_C_Pin2, "Moteur C (Arrière Gauche)"),
+    (Motor_D_EN, Motor_D_Pin1, Motor_D_Pin2, "Moteur D (Arrière Droit)")
+]
 
 try:
-    print("Début du test unitaire des moteurs")
-    for nom, canal in MOTORS.items():
-        moteur_on(canal)
-        time.sleep(1)
-    print("Test terminé.")
+    for en, p1, p2, nom in moteurs:
+        config_moteur(en, p1, p2)
+        action_moteur(en, p1, p2, nom)
+        time.sleep(0.5)
 
-except Exception as e:
-    print(f"Erreur lors du test : {e}")
+finally:
+    GPIO.cleanup()
+    print("Test terminé.")
