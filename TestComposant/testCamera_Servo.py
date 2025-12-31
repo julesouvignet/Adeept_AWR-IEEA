@@ -9,11 +9,12 @@ try:
     
     while True:
         print("Position 1 (300)")
-        pwm.set_pwm(3, 0, 300) # Canal 3 (souvent utilisé pour la direction ou la caméra)
+        # Après tests des cannaux on a constaté le servo camera sur canal 0
+        pwm.set_pwm(0, 0, 300) # Canal 3 (souvent utilisé pour la direction ou la caméra)
         time.sleep(1)
         
         print("Position 2 (400)")
-        pwm.set_pwm(3, 0, 400)
+        pwm.set_pwm(0, 0, 400)
         time.sleep(1)
 
 except Exception as e:
