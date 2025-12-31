@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import time
-
+ 
 # Configuration des broches
 # Moteurs A et B (tes réglages)
 Motor_A_EN, Motor_A_Pin1, Motor_A_Pin2 = 4, 14, 15
